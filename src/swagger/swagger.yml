@@ -1,0 +1,116 @@
+swagger: "2.0"
+info:
+  title: ucloud网关
+  description: 本API提供ucloud连接网关服务 现已支持ULB
+  version: 1.0.0
+  termsOfService: https://docs.ucloud.cn/api/ulb-api/index
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /api
+paths:
+  /ulbs/query:
+    post:
+      tags:
+      - ulbs
+      description: 获取ULB列表
+      operationId: UlBController.获取ULB列表
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/models.DescribeULBRequest'
+      responses:
+        "200":
+          description: '"内嵌包swagger无法显示,请参考ucloud文档"'
+          schema:
+            $ref: '#/definitions/github.com.ucloud.ucloud-sdk-go.services.ulb.DescribeULBResponse'
+  /ulbs/update:
+    post:
+      tags:
+      - ulbs
+      description: 更新ULB下UServer下的服务节点状态
+      operationId: UlBController.更新ULB下UServer下的服务节点状态
+      parameters:
+      - in: body
+        name: body
+        description: 请求参数
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateBackendAttributeRequest'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.BaseResponse'
+definitions:
+  github.com.ucloud.ucloud-sdk-go.services.ulb.DescribeULBResponse:
+    title: DescribeULBResponse
+    type: object
+  models.BaseResponse:
+    title: BaseResponse
+    type: object
+    properties:
+      action:
+        description: 操作
+        type: string
+      message:
+        description: 输出信息
+        type: string
+      retCode:
+        description: 响应码(0:成功)
+        type: integer
+        format: int64
+  models.DescribeULBRequest:
+    title: DescribeULBRequest
+    required:
+    - region
+    - projectId
+    type: object
+    properties:
+      limit:
+        description: 数据分页值，默认为20
+        type: integer
+        format: int64
+      offset:
+        description: 数据偏移量，默认为0
+        type: integer
+        format: int64
+      projectId:
+        description: 项目编号
+        type: string
+      region:
+        description: 区域
+        type: string
+  models.UpdateBackendAttributeRequest:
+    title: UpdateBackendAttributeRequest
+    required:
+    - region
+    - projectId
+    - bLBId
+    - backendId
+    - enabled
+    type: object
+    properties:
+      bLBId:
+        description: ULB编号
+        type: string
+      backendId:
+        description: 归属ULB下服务节点编号
+        type: string
+      enabled:
+        description: 状态(1:开启,0:关闭)
+        type: integer
+        format: int64
+      projectId:
+        description: 项目编号
+        type: string
+      region:
+        description: 区域
+        type: string
+tags:
+- name: ulbs
+  description: |
+    ULB相关
